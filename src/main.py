@@ -10,7 +10,7 @@ import os
 import time
 
 OUTPUT_DIR = "models/"
-MODEL_TYPE = "unet"
+MODEL_TYPE = "segformer"
 
 if __name__ == "__main__":
     # use slurm job id or timestamp
