@@ -3,7 +3,7 @@ import segmentation_models_pytorch as smp
 from abc import abstractmethod
 import torch
 
-from ..datasets import UnetCityscapesDataset, SegFormerCityscapesDataset
+from ..datasets import CityscapesDataset
 
 def from_type(type, tvt=0):
     if type == "unet":
@@ -12,9 +12,9 @@ def from_type(type, tvt=0):
             encoder_weights="imagenet",
             classes=19,
             activation=None,
-        ), UnetCityscapesDataset(tvt)
+        ), CityscapesDataset(tvt)
     elif type == "segformer":
-        model = smp.from_pretrained(
+        """model = smp.from_pretrained(
             "nvidia/segformer-b2-finetuned-ade-512-512",
             numlabels=19,
             ignore_mismatched_sizes=True
@@ -24,7 +24,8 @@ def from_type(type, tvt=0):
             "nvidia/segformer-b2-finetuned-ade-512-512"
         )
 
-        dataset = SegFormerCityscapesDataset(tvt, processor)
+        dataset = SegFormerCityscapesDataset(tvt, processor)"""
+        raise NotImplementedError("SegFormer model not yet implemented.")
 
         return model, dataset
     else:

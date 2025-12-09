@@ -1,12 +1,11 @@
 from torch.utils.data import Dataset
-import torchvision.functional as functional
 from PIL import Image
 import numpy as np
 import torch
 import os
 
 
-class UnetCityscapesDataset(Dataset):
+class CityscapesDataset(Dataset):
     def __init__(self, tvt, image_transform=None, mask_transform=None):
         self.image_transform = image_transform
         self.mask_transform = mask_transform
@@ -61,65 +60,6 @@ class UnetCityscapesDataset(Dataset):
 
         if self.mask_transform is not None:
             mask = self.mask_transform(mask)
-
-        return image, mask
-
-class SegFormerCityscapesDataset(Dataset):
-    def __init__(self, tvt, processor):
-        self.processor = processor
-        self.images = []
-        self.masks = []
-        self.tvt = tvt  # 0 for train, 1 for val, 2 for test
-        if tvt == 0:
-            s = "train"
-        elif tvt == 1:
-            s = "val"
-        else:
-            s = "test"
-
-        img_root = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-            "data",
-            "leftImg8bit",
-            s,
-        )
-        mask_root = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-            "data",
-            "gtFine",
-            s,
-        )
-
-        for city in os.listdir(img_root):
-            img_dir = os.path.join(img_root, city)
-            mask_dir = os.path.join(mask_root, city)
-
-            for file_name in os.listdir(img_dir):
-                if file_name.endswith("_leftImg8bit.png"):
-                    img_path = os.path.join(img_dir, file_name)
-                    mask_name = file_name.replace(
-                        "_leftImg8bit.png", "_gtFine_labelIds.png"
-                    )
-                    mask_path = os.path.join(mask_dir, mask_name)
-
-                    if os.path.isfile(img_path) and os.path.isfile(mask_path):
-                        self.images.append(img_path)
-                        self.masks.append(mask_path)
-
-    def __len__(self):
-        return len(self.images)
-
-    def __getitem__(self, id):
-        image = Image.open(self.images[id]).convert("RGB")
-        mask = Image.open(self.masks[id])
-
-        processed = self.processor(images=image, return_tensors="pt")
-        pixel_values = processed["pixel_values"].squeeze(0)
-
-        mask = torch.from_numpy(np.array(mask)).long()
-
-        target_size = processor.size["height"], processor.size["width"]
-        mask = transforms.functional.resize(mask.unsqu)
 
         return image, mask
 

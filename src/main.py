@@ -1,6 +1,6 @@
 from .models import from_type
 from .training import train, get_class_weights
-from .datasets import get_dataloaders
+from .datasets import get_dataloaders, CityscapesDataset
 import torch
 from PIL import Image
 from torchvision import transforms
@@ -12,7 +12,7 @@ OUTPUT_DIR = "models/"
 
 
 if __name__ == "__main__":
-    dtype = torch.float32  # We will be using float throughout.
+    dtype = torch.float32  
 
     if torch.cuda.is_available():
         device = torch.device("cuda")  # For NVIDIA GPU
@@ -21,8 +21,8 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    model, dataset = from_type(MODEL_TYPE)
-    train_loader, val_loader = get_dataloaders(dataset, batch_size=32, num_workers=4)
+    model, _dataset = from_type(MODEL_TYPE)
+    train_loader, val_loader = get_dataloaders(CityscapesDataset, batch_size=32, num_workers=4)
 
     print(device)
     learning_rate = 1e-4
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     )
 
     image = transform(image)
-    image = image.to(device)
+    image = image.to(device) # type: ignore
     model = model.to(device=device)
     mask = model(image.unsqueeze(0))
     mask = mask.cpu().detach().numpy().squeeze(0)
