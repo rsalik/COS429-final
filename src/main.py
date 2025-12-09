@@ -1,3 +1,4 @@
+from .models import from_type
 from .training import train, get_class_weights
 from .datasets import get_dataloaders
 import torch
@@ -11,8 +12,6 @@ OUTPUT_DIR = "models/"
 
 
 if __name__ == "__main__":
-    train_loader, val_loader = get_dataloaders(batch_size=32, num_workers=4)
-
     dtype = torch.float32  # We will be using float throughout.
 
     if torch.cuda.is_available():
@@ -22,22 +21,8 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    if MODEL_TYPE == "unet":
-        model = smp.Unet(
-            encoder_name="resnet50",
-            encoder_weights="imagenet",
-            classes=19,
-            activation=None,
-        )
-    elif MODEL_TYPE == "transformer":
-        model = smp.UnetTransformer(
-            encoder_name="resnet50",
-            encoder_weights="imagenet",
-            classes=19,
-            activation=None,
-        )
-    else:
-        raise ValueError(f"Unknown model type: {MODEL_TYPE}")
+    model, dataset = from_type(MODEL_TYPE)
+    train_loader, val_loader = get_dataloaders(dataset, batch_size=32, num_workers=4)
 
     print(device)
     learning_rate = 1e-4

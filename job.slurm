@@ -11,28 +11,14 @@
 #SBATCH --gres=gpu:1
 #SBATCH --partition=pli
 #SBATCH --account=eladgroup
-#SBATCH --output=logs/%x-%j.out
-#SBATCH --error=logs/%x-%j.err
 
-set -euo pipefail
+export OMP_NUM_THREADS=1
+export CUDA_VISIBLE_DEVICES=0
+export HYDRA_FULL_ERROR=1
 
-echo "Job: $SLURM_JOB_NAME ($SLURM_JOB_ID)" && echo "Node: $(hostname)" && echo "Start: $(date)"
+module load anaconda/2020a
+source activate cos429-final-env
 
-# Ensure log directory exists for Slurm outputs.
-mkdir -p logs
-
-# Load user shell config to make pyenv available, then select the project env.
-source ~/.bashrc
-pyenv shell cos429-final-env
-
-# Move to the submission directory so relative paths work as expected.
-cd "$SLURM_SUBMIT_DIR"
-
-echo "Python: $(which python)" && python --version
-nvidia-smi || true
-
-# Run training.
+# Run your training script
 python -m src.main
-
-echo "End: $(date)"
 
