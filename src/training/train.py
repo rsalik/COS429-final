@@ -2,7 +2,18 @@ from .utils import accuracy
 import torch
 
 
-def train(model, optimizer, loader_train, loader_val, epochs, device, dtype, class_weights, print_every=10):
+def train(
+    model,
+    optimizer,
+    loader_train,
+    loader_val,
+    epochs,
+    device,
+    dtype,
+    class_weights,
+    scheduler=None,
+    print_every=10,
+):
     """
     Train a model using the PyTorch Module API.
 
@@ -13,6 +24,7 @@ def train(model, optimizer, loader_train, loader_val, epochs, device, dtype, cla
     - loader_val: A dataloader containing the validation dataset
     - epochs: (Optional) An integer giving the number of epochs to train for
     - print_every: (Optional) An integer specifying how often to print the loss.
+    - scheduler: (Optional) A PyTorch learning rate scheduler.
 
     Returns: Nothing, but prints model losses and accuracies during training.
     """
@@ -25,7 +37,9 @@ def train(model, optimizer, loader_train, loader_val, epochs, device, dtype, cla
             y = y.to(device=device, dtype=torch.long)
 
             scores = model(x)
-            loss = torch.nn.functional.cross_entropy(scores, y.squeeze(1), ignore_index=255, weight=class_weights)
+            loss = torch.nn.functional.cross_entropy(
+                scores, y.squeeze(1), ignore_index=255, weight=class_weights
+            )
             losses.append(loss.item())
 
             # Zero out all of the gradients for the variables which the optimizer
@@ -43,10 +57,12 @@ def train(model, optimizer, loader_train, loader_val, epochs, device, dtype, cla
             optimizer.step()
 
             if t % print_every == 0:
-                print('Epoch {}, iteration {}, loss = {}'.format(e, t, loss.item()))
+                print("Epoch {}, iteration {}, loss = {}".format(e, t, loss.item()))
 
-
-        print('Epoch {} done'.format(e))
+        print("Epoch {} done".format(e))
         accuracy(model, loader_val, device, dtype)
+
+        if scheduler is not None:
+            scheduler.step()
 
     return losses

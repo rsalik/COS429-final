@@ -37,8 +37,8 @@ cd "$DATA_DIR"
 # Download the necessary packages
 # leftImg8bit_trainvaltest.zip contains the images
 # gtFine_trainvaltest.zip contains the ground truth
-echo "Downloading leftImg8bit_trainvaltest.zip..."
-csDownload leftImg8bit_trainvaltest.zip
+# echo "Downloading leftImg8bit_trainvaltest.zip..."
+# csDownload leftImg8bit_trainvaltest.zip
 
 echo "Downloading gtFine_trainvaltest.zip..."
 csDownload gtFine_trainvaltest.zip
