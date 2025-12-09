@@ -4,4 +4,6 @@ data/*
 __pycache__/
 *.pyo
 
+*.pth
+
 .DS_Store
