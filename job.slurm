@@ -5,8 +5,6 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=1:00:00
-#SBATCH --mail-type=begin
-#SBATCH --mail-type=end
 #SBATCH --mail-user=rs3216@princeton.edu
 #SBATCH --gres=gpu:1
 #SBATCH --partition=pli
