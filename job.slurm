@@ -17,6 +17,10 @@ export HYDRA_FULL_ERROR=1
 module load anaconda/2020a
 source activate cos429-final-env
 
+# Pre-downloaded model weights
+export TORCH_HOME=${HOME}/.cache/torch
+export HF_HOME=${HOME}/.cache/huggingface
+
 # Run your training script
 python -m src.main
 
