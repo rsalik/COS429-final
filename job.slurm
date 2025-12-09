@@ -21,6 +21,6 @@ source activate cos429-final-env
 export TORCH_HOME=${HOME}/.cache/torch
 export HF_HOME=${HOME}/.cache/huggingface
 
-# Run your training script
+# Run your training script, pass slurm job id as an argument
 python -m src.main
 
