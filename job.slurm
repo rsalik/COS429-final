@@ -14,7 +14,7 @@ export OMP_NUM_THREADS=1
 export CUDA_VISIBLE_DEVICES=0
 export HYDRA_FULL_ERROR=1
 
-module load anaconda/2020a
+module load anaconda3/2025.6
 source activate cos429-final-env
 
 # Pre-downloaded model weights
