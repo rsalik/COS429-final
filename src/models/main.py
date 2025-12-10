@@ -5,6 +5,8 @@ import torch
 
 from ..datasets import CityscapesDataset
 
+from transformers import SegformerFeatureExtractor, SegformerForSemanticSegmentation
+
 def from_type(type, tvt=0):
     if type == "unet":
         return smp.Unet(
@@ -19,11 +21,13 @@ def from_type(type, tvt=0):
             "nvidia/segformer-b2-finetuned-ade-512-512"
         )
 
+       
         model = SegformerForSemanticSegmentation.from_pretrained(
             "nvidia/segformer-b2-finetuned-ade-512-512",
             num_labels=19,
-            ignore_mismatched_sizes=True,
-        )
+            ignore_mismatched_sizes=True
+        ).to(device)
+
     
         dataset = SegFormerCityscapesDataset(tvt, processor)
         
