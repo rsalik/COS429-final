@@ -14,14 +14,14 @@ def from_type(type, tvt=0):
             activation=None,
         ), CityscapesDataset(tvt)
     elif type == "segformer":
-       
+       """
         model = SegformerForSemanticSegmentation.from_pretrained(
             "nvidia/segformer-b2-finetuned-ade-512-512",
             num_labels=19,
             ignore_mismatched_sizes=True
         )
         
-        """
+       
         processor = smp.from_pretrained(
             "nvidia/segformer-b2-finetuned-ade-512-512"
         )
