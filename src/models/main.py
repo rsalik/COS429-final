@@ -14,21 +14,20 @@ def from_type(type, tvt=0):
             activation=None,
         ), CityscapesDataset(tvt)
     elif type == "segformer":
-       """
-        model = SegformerForSemanticSegmentation.from_pretrained(
-            "nvidia/segformer-b2-finetuned-ade-512-512",
-            num_labels=19,
-            ignore_mismatched_sizes=True
-        )
-        
        
-        processor = smp.from_pretrained(
+        processor = SegformerFeatureExtractor.from_pretrained(
             "nvidia/segformer-b2-finetuned-ade-512-512"
         )
 
-        dataset = SegFormerCityscapesDataset(tvt, processor)"""
-        raise NotImplementedError("SegFormer model not yet implemented.")
-
+        model = SegformerForSemanticSegmentation.from_pretrained(
+            "nvidia/segformer-b2-finetuned-ade-512-512",
+            num_labels=19,
+            ignore_mismatched_sizes=True,
+        )
+    
+        dataset = SegFormerCityscapesDataset(tvt, processor)
+        
         return model, dataset
+        
     else:
         raise ValueError(f"Unknown model type: {type}")
