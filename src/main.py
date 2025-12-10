@@ -25,8 +25,8 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    model, _dataset = from_type(MODEL_TYPE)
-    train_loader, val_loader = get_dataloaders(CityscapesDataset, batch_size=32, num_workers=4)
+    model, dataset = from_type(MODEL_TYPE)
+    train_loader, val_loader = get_dataloaders(dataset, batch_size=32, num_workers=4)
 
     print("Starting training on device: ", device)
 
@@ -55,22 +55,22 @@ if __name__ == "__main__":
     os.makedirs(DIR, exist_ok=True)
     torch.save(model.state_dict(), f"{DIR}{MODEL_TYPE}.pth")
 
-    image = Image.open(
-        "data/val/frankfurt/frankfurt_000000_000294_leftImg8bit.png"
-    ).convert("RGB")
+    # image = Image.open(
+    #     "data/val/frankfurt/frankfurt_000000_000294_leftImg8bit.png"
+    # ).convert("RGB")
         
-    transform = transforms.Compose(
-        [transforms.Resize((256, 512)), transforms.ToTensor()]
-    )
+    # transform = transforms.Compose(
+    #     [transforms.Resize((256, 512)), transforms.ToTensor()]
+    # )
 
-    image = transform(image)
-    image = image.to(device) # type: ignore
-    model = model.to(device=device)
-    mask = model(image.unsqueeze(0))
-    mask = mask.cpu().detach().numpy().squeeze(0)
-    print(mask[:, 0, 0])
+    # image = transform(image)
+    # image = image.to(device) # type: ignore
+    # model = model.to(device=device)
+    # mask = model(image.unsqueeze(0))
+    # mask = mask.cpu().detach().numpy().squeeze(0)
+    # print(mask[:, 0, 0])
 
-    plt.savefig(f"{DIR}example_output.png")
+    # plt.savefig(f"{DIR}example_output.png")
 
     # Plot loss curves and save
     plt.figure()

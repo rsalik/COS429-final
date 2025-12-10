@@ -4,9 +4,9 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
-#SBATCH --time=1:00:00
+#SBATCH --time=0:40:00
 #SBATCH --mail-user=rs3216@princeton.edu
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:2
 #SBATCH --partition=pli
 #SBATCH --account=eladgroup
 
