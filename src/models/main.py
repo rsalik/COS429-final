@@ -4,6 +4,7 @@ from abc import abstractmethod
 import torch
 
 from ..datasets import CityscapesDataset
+from ..segformer_dataset import CityscapesSegFormerDataset
 
 from transformers import SegformerFeatureExtractor, SegformerForSemanticSegmentation
 
@@ -29,7 +30,7 @@ def from_type(type, tvt=0):
         ).to(device)
 
     
-        dataset = SegFormerCityscapesDataset(tvt, processor)
+        dataset = CityscapesSegFormerDataset(tvt, processor)
         
         return model, dataset
         
