@@ -25,8 +25,8 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    model, dataset = from_type(MODEL_TYPE)
-    train_loader, val_loader = get_dataloaders(dataset, batch_size=32, num_workers=4)
+    model, _ = from_type(MODEL_TYPE)
+    train_loader, val_loader = get_dataloaders(CityscapesDataset, batch_size=32, num_workers=4)
 
     print("Starting training on device: ", device)
 
