@@ -119,9 +119,3 @@ mask_transform = transforms.Compose([
     transforms.PILToTensor(),
 ])
 '''
-
-train_dataset = CityscapesSegFormerDataset(tvt=0, image_transform=image_transform, mask_transform=mask_transform)
-val_dataset = CityscapesSegFormerDataset(tvt=1,  image_transform=image_transform, mask_transform=mask_transform)
-
-train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True, num_workers=2, pin_memory=True)
-val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False, num_workers=2, pin_memory=True)
