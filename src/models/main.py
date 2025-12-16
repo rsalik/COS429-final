@@ -4,12 +4,6 @@ from abc import abstractmethod
 import torch
 
 from ..datasets import CityscapesDataset
-from ..segformer_dataset import CityscapesSegFormerDataset
-
-from segformer_dataset import (
-    SegformerFeatureExtractor,
-    SegformerForSemanticSegmentation,
-)
 
 
 def from_type(type, tvt=0):
@@ -22,19 +16,7 @@ def from_type(type, tvt=0):
         ), CityscapesDataset(tvt)
     elif type == "segformer":
 
-        processor = SegformerFeatureExtractor.from_pretrained(
-            "nvidia/segformer-b2-finetuned-ade-512-512"
-        )
-
-        model = SegformerForSemanticSegmentation.from_pretrained(
-            "nvidia/segformer-b2-finetuned-ade-512-512",
-            num_labels=19,
-            ignore_mismatched_sizes=True,
-        ).to(device)
-
-        dataset = CityscapesSegFormerDataset(tvt, processor)
-
-        return model, dataset
+        raise ValueError("Segformer not implemented")
 
     else:
         raise ValueError(f"Unknown model type: {type}")
