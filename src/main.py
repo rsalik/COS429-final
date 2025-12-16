@@ -35,7 +35,7 @@ if __name__ == "__main__":
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
 
     class_weights = get_class_weights(
-        train_loader, num_classes=19, device=device, dtype=dtype
+        train_loader, num_classes=20, device=device, dtype=dtype
     )
     print("Class weights computed. Starting training...")
     losses = train(
