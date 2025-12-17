@@ -2,9 +2,6 @@ from .models import from_type
 from .training import train, get_class_weights
 from .datasets import get_dataloaders
 import torch
-from PIL import Image
-from torchvision import transforms
-import segmentation_models_pytorch as smp
 import matplotlib.pyplot as plt
 import os
 import time
