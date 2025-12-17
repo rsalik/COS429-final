@@ -16,17 +16,19 @@ if __name__ == "__main__":
     # use slurm job id or timestamp
     JOB_ID = os.environ.get("SLURM_JOB_ID", "local_" + str(int(time.time())))
 
-    dtype = torch.float32  
+    dtype = torch.float32
 
     if torch.cuda.is_available():
-        device = torch.device("cuda") # For NVIDIA GPU
+        device = torch.device("cuda")  # For NVIDIA GPU
     elif torch.backends.mps.is_available():
         device = torch.device("mps")  # For Apple Silicon
     else:
         device = torch.device("cpu")
 
     model, _ = from_type(MODEL_TYPE)
-    train_loader, val_loader = get_dataloaders(CityscapesDataset, batch_size=32, num_workers=4)
+    train_loader, val_loader = get_dataloaders(
+        CityscapesDataset, batch_size=32, num_workers=4
+    )
 
     print("Starting training on device: ", device)
 
@@ -58,7 +60,7 @@ if __name__ == "__main__":
     # image = Image.open(
     #     "data/val/frankfurt/frankfurt_000000_000294_leftImg8bit.png"
     # ).convert("RGB")
-        
+
     # transform = transforms.Compose(
     #     [transforms.Resize((256, 512)), transforms.ToTensor()]
     # )
@@ -72,14 +74,14 @@ if __name__ == "__main__":
 
     # plt.savefig(f"{DIR}example_output.png")
 
+    # Example Output replaced w/ visualization.notebook.
+
     # Plot loss curves and save
     plt.figure()
-    plt.plot(losses, label='Train Loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.title('Training and Validation Loss Curves')
+    plt.plot(losses, label="Train Loss")
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
+    plt.title("Training and Validation Loss Curves")
     plt.legend()
     plt.savefig(f"{DIR}loss_curves.png")
     plt.close()
-
-

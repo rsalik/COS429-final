@@ -6,7 +6,7 @@
 #SBATCH --mem=64G
 #SBATCH --time=0:40:00
 #SBATCH --mail-user=rs3216@princeton.edu
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 #SBATCH --partition=pli
 #SBATCH --account=eladgroup
 
@@ -17,10 +17,8 @@ export HYDRA_FULL_ERROR=1
 module load anaconda3/2025.6
 source activate cos429-final-env
 
-# Pre-downloaded model weights
 export TORCH_HOME=${HOME}/.cache/torch
 export HF_HOME=${HOME}/.cache/huggingface
 
-# Run your training script, pass slurm job id as an argument
 python -m src.main
 
