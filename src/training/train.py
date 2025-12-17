@@ -1,7 +1,6 @@
 from .utils import accuracy
 import torch
 
-
 def train(
     model,
     optimizer,
@@ -14,26 +13,13 @@ def train(
     scheduler=None,
     print_every=10,
 ):
-    """
-    Train a model using the PyTorch Module API.
 
-    Inputs:
-    - model: A PyTorch Module giving the model to train.
-    - optimizer: An Optimizer object we will use to train the model
-    - loader_train: A dataloader containing the train dataset
-    - loader_val: A dataloader containing the validation dataset
-    - epochs: (Optional) An integer giving the number of epochs to train for
-    - print_every: (Optional) An integer specifying how often to print the loss.
-    - scheduler: (Optional) A PyTorch learning rate scheduler.
-
-    Returns: Nothing, but prints model losses and accuracies during training.
-    """
-    model = model.to(device=device)  # move the model parameters to CPU/GPU
+    model = model.to(device=device)
     losses = []
     for e in range(epochs):
         for t, (x, y) in enumerate(loader_train):
-            model.train()  # put model to training mode
-            x = x.to(device=device, dtype=dtype)  # move to device, e.g. GPU
+            model.train()
+            x = x.to(device=device, dtype=dtype)
             y = y.to(device=device, dtype=torch.long)
 
             scores = model(x)
@@ -42,18 +28,12 @@ def train(
             )
             losses.append(loss.item())
 
-            # Zero out all of the gradients for the variables which the optimizer
-            # will update.
             optimizer.zero_grad()
-
-            # This is the backwards pass: compute the gradient of the loss with
-            # respect to each  parameter of the model.
             loss.backward()
 
+            # clip for more stable training
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
-            # Actually update the parameters of the model using the gradients
-            # computed by the backwards pass.
             optimizer.step()
 
             if t % print_every == 0:

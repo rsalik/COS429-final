@@ -1,6 +1,6 @@
 from .models import from_type
 from .training import train, get_class_weights
-from .datasets import get_dataloaders, CityscapesDataset
+from .datasets import get_dataloaders
 import torch
 from PIL import Image
 from torchvision import transforms
@@ -25,9 +25,9 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    model, _ = from_type(MODEL_TYPE)
+    model, dataloader_class = from_type(MODEL_TYPE)
     train_loader, val_loader = get_dataloaders(
-        CityscapesDataset, batch_size=32, num_workers=4
+        dataloader_class, batch_size=32, num_workers=4
     )
 
     print("Starting training on device: ", device)

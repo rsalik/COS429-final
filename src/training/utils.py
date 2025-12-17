@@ -2,8 +2,6 @@ import torch
 
 
 def accuracy(model, dataloader, device, dtype):
-    """Compute accuracy of the model on the given dataloader's dataset."""
-
     num_correct = 0
     num_samples = 0
     model.eval()
@@ -25,8 +23,6 @@ def accuracy(model, dataloader, device, dtype):
 
 
 def get_class_weights(dataloader, num_classes, device, dtype):
-    """Compute class weights based on frequency in the dataset."""
-
     class_counts = torch.zeros(num_classes, device=device, dtype=dtype)
     total_pixels = 0
 
